@@ -34,14 +34,23 @@ public class Player : MonoBehaviour
     // 위로 상승 중에는 0번 재생 -> JumpUp 점프 시작시 JumpUp재생
     // 하강으로 바뀔때 JumpDown재생.
     // 땅에 닿았을때 Jump끝 -> Idle, Run
+
+    int continuAirJumpCount = 0;
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(continuAirJumpCount < 2)
         {
-            rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse); // Alt + F12
-            animator.Play("JumpUp");
-            state = State.BeginJump;
-            previousY = float.MinValue;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                rb.velocity = Vector2.zero;
+                //rb.velocity = new Vector2(0, 0);
+                rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse); // Alt + F12
+                animator.Play("JumpUp");
+                state = State.BeginJump;
+                previousY = float.MinValue;
+                continuAirJumpCount++;
+            }
         }
 
         if(state == State.BeginJump)
@@ -60,6 +69,7 @@ public class Player : MonoBehaviour
             if(rb.velocity.y == 0)
             {
                 state = State.Normal;
+                continuAirJumpCount = 0;
             }
         }
 
