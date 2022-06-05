@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
             rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse); // Alt + F12
             animator.Play("JumpUp");
             state = State.BeginJump;
+            previousY = float.MinValue;
         }
 
         if(state == State.BeginJump)
