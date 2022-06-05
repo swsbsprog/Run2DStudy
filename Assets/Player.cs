@@ -106,4 +106,14 @@ public class Player : MonoBehaviour
     public KeyCode leftMoveKey = KeyCode.A;
     public KeyCode rightMoveKey = KeyCode.D;
     public float jumpForce = 20;
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Item"))
+        {
+            print(collision.name + "ºÎµóÇû´Ù");
+            Destroy(collision.gameObject);
+        }
+    }
 }
