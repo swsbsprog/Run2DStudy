@@ -8,6 +8,8 @@ public class MoveToTarget : MonoBehaviour
     public float lerp = 0.01f;
     void Update()
     {
+        if (target == null)
+            return;
         transform.position = Vector3.Lerp(transform.position, target.transform.position, lerp);
     }
 }
