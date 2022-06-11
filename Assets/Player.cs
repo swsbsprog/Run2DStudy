@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,9 +36,12 @@ public class Player : MonoBehaviour
 
     int continuAirJumpCount = 0;
 
+    public float groundVelocity = -0.2f;
+    public ContactFilter2D filter;
+    List<Collider2D> contactColliders = new List<Collider2D>();
     void Update()
     {
-        if(continuAirJumpCount < 2)
+        if (continuAirJumpCount < 2)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -53,10 +55,10 @@ public class Player : MonoBehaviour
             }
         }
 
-        if(state == State.BeginJump)
+        if (state == State.BeginJump)
         {
             float currentY = transform.position.y;
-            if(previousY > currentY)
+            if (previousY > currentY)
             {
                 state = State.BeginDown;
                 animator.Play("JumpDown");
@@ -66,14 +68,17 @@ public class Player : MonoBehaviour
 
         if (state == State.BeginDown)
         {
-            if(rb.velocity.y == 0)
+            if (rb.velocity.y > groundVelocity)
             {
-                state = State.Normal;
-                continuAirJumpCount = 0;
+                if (rb.GetContacts(filter, contactColliders) > 0)
+                {
+                    state = State.Normal;
+                    continuAirJumpCount = 0;
+                }
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             animator.Play("Attack", 1, 0);
         }
@@ -90,10 +95,10 @@ public class Player : MonoBehaviour
             moveX = -speed;
 
         if (moveX != 0)
-        { 
+        {
             transform.Translate(moveX * Time.deltaTime, 0, 0);
             spriteRenderer.flipX = moveX < 0;
-            if(state == State.Normal)
+            if (state == State.Normal)
                 animator.Play("Run");//Run
         }
         else
@@ -110,7 +115,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Item"))
+        if (collision.CompareTag("Item"))
         {
             print(collision.name + "ºÎµóÇû´Ù");
             Destroy(collision.gameObject);
