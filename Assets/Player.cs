@@ -89,11 +89,11 @@ public class Player : MonoBehaviour
 
 
         float moveX = 0;
-        if (Input.GetKey(rightMoveKey))
-            moveX = speed;
-        if (Input.GetKey(leftMoveKey))
-            moveX = -speed;
-
+        //if (Input.GetKey(rightMoveKey))
+        //    moveX = speed;
+        //if (Input.GetKey(leftMoveKey))
+        //    moveX = -speed;
+        moveX = 1;
         if (moveX != 0)
         {
             transform.Translate(moveX * Time.deltaTime, 0, 0);
