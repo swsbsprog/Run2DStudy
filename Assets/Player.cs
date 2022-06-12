@@ -74,9 +74,18 @@ public class Player : MonoBehaviour
 
         if (state == State.BeginDown)
         {
-            if(rb.velocity.y == 0)
+            bool isContact = false;
+            List<ContactPoint2D> contacts = new List<ContactPoint2D>();
+            int count = rb.GetContacts(contacts);
+            if (contacts.Count > 0)
             {
-                state = State.Normal;
+                //print($"count:{count}, contacts:{contacts[0].collider.name}");
+                isContact = true;
+            }
+
+            if (isContact && rb.velocity.y < 0.00001f) // 땅에 떨어 졌는데도 0이 안되고 있다(늦게 되고 있다)
+            {
+                state = State.Normal; // 너무 늦게 되고있다.(가끔발생, 평지에선 발생 안됨)
                 continuAirJumpCount = 0;
             }
         }
