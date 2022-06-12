@@ -16,8 +16,15 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-    }
+        jellyScore = PlayerPrefs.GetInt("jellyScore");
 
+        UpdateJelllyScore();
+    }
+    void SaveJellyScore()
+    {
+        PlayerPrefs.SetInt("jellyScore", jellyScore);
+        PlayerPrefs.Save();
+    }
     public enum State
     {
         Normal,      //normal (idle, run)
@@ -123,8 +130,27 @@ public class Player : MonoBehaviour
             //score = score + 100;
             score += 100;
             scoreText.text = score.ToString();
+
+            jellyScore += 1;
+            UpdateJelllyScore();
         }
     }
+
+    private void UpdateJelllyScore()
+    {
+        jellyScoreText.text = jellyScore.ToString();
+        SaveJellyScore();
+    }
+
     public int score;
     public TextMeshProUGUI scoreText;
+    static public int jellyScore;
+    public TextMeshProUGUI jellyScoreText;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void MyInit()
+    {
+        Debug.Log("jellyScore reset.");
+        jellyScore = 0;
+    }
 }
