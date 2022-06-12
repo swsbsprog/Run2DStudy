@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -39,7 +40,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if(continuAirJumpCount < 2)
+        if (continuAirJumpCount < 2)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -117,6 +118,13 @@ public class Player : MonoBehaviour
         {
             print(collision.name + "ºÎµóÇû´Ù");
             Destroy(collision.gameObject);
+
+            //// Á¡¼ö Áõ°¡.
+            //score = score + 100;
+            score += 100;
+            scoreText.text = score.ToString();
         }
     }
+    public int score;
+    public TextMeshProUGUI scoreText;
 }
