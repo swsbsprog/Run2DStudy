@@ -89,6 +89,9 @@ public class Player : MonoBehaviour
         if (Input.GetKey(leftMoveKey))
             moveX = -speed;
 
+        if(autoMoveX)
+            moveX = 1;
+
         if (moveX != 0)
         { 
             transform.Translate(moveX * Time.deltaTime, 0, 0);
@@ -106,7 +109,7 @@ public class Player : MonoBehaviour
     public KeyCode leftMoveKey = KeyCode.A;
     public KeyCode rightMoveKey = KeyCode.D;
     public float jumpForce = 20;
-
+    public bool autoMoveX = true;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

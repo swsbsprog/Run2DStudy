@@ -7,6 +7,18 @@ public class FollowTarget : MonoBehaviour
     public Transform target;
     public float forwardOffsetX = 0.5f;
     public float lerp = 0.01f;
+    private void Awake()
+    {
+        print("Awake");
+    }
+    private void Start()
+    {
+        print("Start");
+    }
+    private void OnEnable()
+    {
+        print("OnEnable");
+    }
 
     void Update()
     {
